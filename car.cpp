@@ -3,30 +3,67 @@
 
 Car::Car()
 {
-    speed = 1;
+    _speed = 1;
     desiredSpeed = 60 + (rand()%20);
-    x = -1000;
+    x = -3000;
     if (rand()%2 == 0)
         y= 92;
     else
-        y = 127;
+        y = 129;
     _pic = QPixmap(":cars/car1.png");
     qDebug() << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2;
     moving = false;
+    checked = false;
+    busted = false;
 }
 
 void Car::step()
 {
-    if (moving == true)
-    { //если движется, двигаем
-        if (speed<desiredSpeed)
-            speed = speed+1;
-            x=x+speed;
+    if (busted == false)
+    {
+        if (moving == true)
+        { //если движется, двигаем
+            if (_speed<desiredSpeed)
+                _speed = _speed+1;
+            if (_speed>desiredSpeed)
+                _speed = _speed-1;
+            x=x+_speed;
+        }
+        if (x>6600)
+        { //если уехала, останавливаем
+            moving = false;
+            checked = false;
+            x = -3000;
+            busted = false;
+            if (rand()%2 == 0)
+                y= 92;
+            else
+                y = 129;
+        }
+        if ((x>2000)&&(x<2500)&&(checked==false))
+        {
+
+            window->checkCar(this);
+            checked = true;
+        }
     }
-    if (x>6600)
-    { //если уехала, останавливаем
-        moving = false;
-        x = -1000;
+    else
+    {
+        if (_speed<desiredSpeed)
+            _speed = _speed+1;
+        if (_speed>desiredSpeed)
+            _speed = _speed-4;
+        x=x+_speed;
+
+        if (y<166)
+        {
+            y+=3;
+        }
+        if (y>=166)
+        {
+            desiredSpeed = 0;
+        }
+
     }
 }
 
@@ -50,7 +87,35 @@ bool Car::isMoving()
     return moving;
 }
 
-bool Car::startMoving()
+void Car::startMoving()
 {
     moving = true;
+    desiredSpeed = 60 + (rand()%40);
 }
+
+void Car::setSource(MainWindow *source)
+{
+    window = source;
+}
+
+int Car::speed()
+{
+    return _speed;
+}
+
+int Car::id()
+{
+    return _id;
+}
+
+void Car::setId(int ind)
+{
+    _id = ind;
+}
+
+void Car::bust()
+{
+    busted = true;
+}
+
+

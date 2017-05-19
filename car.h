@@ -1,6 +1,8 @@
 #ifndef CAR_H
 #define CAR_H
 #include <qpixmap.h>
+#include <mainwindow.h>
+class MainWindow;
 
 class Car
 {
@@ -15,17 +17,27 @@ public:
     QPixmap pic();
     bool moving;
     bool isMoving();
-    bool startMoving();
+    void startMoving();
+    void setSource(MainWindow* source);
+    void radarPassed();
+    int speed();
+    int id();
+    void setId(int ind);
+    void bust();
 
 private:
-    int speed;
+    int _speed;
     int desiredSpeed;
     int x;
     int y;
-    bool spawned;
+    bool checked;
+    bool busted;
+    int _id;
 
     QPixmap _pic;
 
+protected:
+     MainWindow* window;
 };
 
 #endif // CAR_H

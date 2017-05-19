@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     amount = 10;
     initCars();
     time = 0;
+    speedLimit = 85;
 }
 
 MainWindow::~MainWindow()
@@ -35,8 +36,16 @@ void MainWindow::initCars()
     for (int i = 0; i<amount; i++)
     {
         Car car;
+        car.setId(i);
+        car.setSource(this);
         Cars.append(car);
     }
+}
+
+void MainWindow::checkCar(Car *car)
+{
+    qDebug () << "car" << car->id() << "passes at speed " << car->speed();
+    if (car->speed() > speedLimit) car->bust();
 }
 
 void MainWindow::tick()
@@ -52,14 +61,12 @@ void MainWindow::tick()
     }
     if (time > 50+rand()%100)
     {
-        qDebug() << "starting spawning at time" << time;
         time = 0;
         int val = rand()%(amount-1);
         while (Cars[val].isMoving() != 0)
         {
             val = rand()%(amount-1);
         }
-        qDebug() << "seems like this car is not moving" << val;
         Cars[val].startMoving();
     }
 }

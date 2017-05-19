@@ -24,6 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void initCars();
+    void checkCar(Car *car);
 
 public slots:
     void tick();
@@ -38,6 +39,7 @@ private:
     Car* car1;
     int amount;
     int time;
+    int speedLimit;
 };
 
 #endif // MAINWINDOW_H
