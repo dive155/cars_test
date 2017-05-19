@@ -2,5 +2,9 @@
     <qresource prefix="/cars">
         <file>car1.png</file>
         <file>backtest.png</file>
+        <file>police.png</file>
+        <file>car2.png</file>
+        <file>car3.png</file>
+        <file>car4.png</file>
     </qresource>
 </RCC>

@@ -7,10 +7,15 @@ Car::Car()
     desiredSpeed = 60 + (rand()%20);
     x = -3000;
     if (rand()%2 == 0)
-        y= 92;
+        y= 28;
     else
-        y = 129;
-    _pic = QPixmap(":cars/car1.png");
+        y = 65;
+    int picin = rand()%4;
+    if (picin==0) _pic = QPixmap(":cars/car1.png");
+    if (picin==1) _pic = QPixmap(":cars/car2.png");
+    if (picin==2) _pic = QPixmap(":cars/car3.png");
+    if (picin==3) _pic = QPixmap(":cars/car4.png");
+
     qDebug() << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2;
     moving = false;
     checked = false;
@@ -36,11 +41,11 @@ void Car::step()
             x = -3000;
             busted = false;
             if (rand()%2 == 0)
-                y= 92;
+                y= 28;
             else
-                y = 129;
+                y = 65;
         }
-        if ((x>2000)&&(x<2500)&&(checked==false))
+        if ((x>1500)&&(x<2000)&&(checked==false))
         {
 
             window->checkCar(this);
@@ -55,13 +60,14 @@ void Car::step()
             _speed = _speed-4;
         x=x+_speed;
 
-        if (y<166)
+        if (y<102)
         {
             y+=3;
         }
-        if (y>=166)
+        if ((y>=102))
         {
-            desiredSpeed = 0;
+            desiredSpeed = 30;
+            //desiredSpeed = -0.01125*x + 77;
         }
 
     }
@@ -116,6 +122,7 @@ void Car::setId(int ind)
 void Car::bust()
 {
     busted = true;
+    desiredSpeed = 60;
 }
 
 

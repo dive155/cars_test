@@ -69,4 +69,5 @@ void MainWindow::tick()
         }
         Cars[val].startMoving();
     }
+    scene->addPixmap(QPixmap(":cars/police.png"));
 }
