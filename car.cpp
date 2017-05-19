@@ -7,7 +7,7 @@ Car::Car()
     _speed = desiredSpeed;
     x = -2000; //ставим слева от экрана
     if (rand()%2 == 0) //в рандомную полосу
-        y= 28;
+        y= 30;
     else
         y = 65;
     int picin = rand()%4;
@@ -56,7 +56,7 @@ void Car::step()
             x = -2000;
             busted = false;
             if (rand()%2 == 0)
-                y= 28; //ставим в рандомную полосу
+                y= 30; //ставим в рандомную полосу
             else
                 y = 65;
         }
@@ -74,14 +74,25 @@ void Car::step()
             _speed = _speed-2;
         x=x+_speed; //машина всё ещё едет
 
-        if (y<102)
+        if (y<100)
         { //перестраиваемся вправо
             y+=2;
         }
-        if ((y>=102))
+        if ((y>=100))
         {
             desiredSpeed = 30; //тормозим
             //desiredSpeed = -0.01125*x + 77;
+        }
+        if (x>6600)
+        { //если уехала, останавливаем
+            moving = false;
+            checked = false;
+            x = -2000;
+            busted = false;
+            if (rand()%2 == 0)
+                y= 30; //ставим в рандомную полосу
+            else
+                y = 65;
         }
 
     }
