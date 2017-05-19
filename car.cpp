@@ -3,29 +3,44 @@
 
 Car::Car()
 {
-    _speed = 1;
     desiredSpeed = 60 + (rand()%20);
-    x = -3000;
-    if (rand()%2 == 0)
+    _speed = desiredSpeed;
+    x = -2000; //ставим слева от экрана
+    if (rand()%2 == 0) //в рандомную полосу
         y= 28;
     else
         y = 65;
     int picin = rand()%4;
-    if (picin==0) _pic = QPixmap(":cars/car1.png");
-    if (picin==1) _pic = QPixmap(":cars/car2.png");
-    if (picin==2) _pic = QPixmap(":cars/car3.png");
-    if (picin==3) _pic = QPixmap(":cars/car4.png");
-
-    qDebug() << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2 << rand()%2;
+    if (picin==0)
+    { //рандомная картинка
+        _pic = QPixmap(":cars/car1.png");
+        _color = QString("Зеленый");
+    }
+    if (picin==1)
+    {
+        _pic = QPixmap(":cars/car2.png");
+        _color = QString("Синий");
+    }
+    if (picin==2)
+    {
+        _pic = QPixmap(":cars/car3.png");
+        _color = QString("Красный");
+    }
+    if (picin==3)
+    {
+        _pic = QPixmap(":cars/car4.png");
+        _color = QString("Желтый");
+    }
+    //не едет, не проверена, не арестована
     moving = false;
     checked = false;
     busted = false;
 }
 
 void Car::step()
-{
+{ //сдвинуть
     if (busted == false)
-    {
+    { //если не арестована
         if (moving == true)
         { //если движется, двигаем
             if (_speed<desiredSpeed)
@@ -38,35 +53,34 @@ void Car::step()
         { //если уехала, останавливаем
             moving = false;
             checked = false;
-            x = -3000;
+            x = -2000;
             busted = false;
             if (rand()%2 == 0)
-                y= 28;
+                y= 28; //ставим в рандомную полосу
             else
                 y = 65;
         }
         if ((x>1500)&&(x<2000)&&(checked==false))
-        {
-
+        { //если проезжает радар, проверяем
             window->checkCar(this);
             checked = true;
         }
     }
     else
-    {
+    { //если арестовываем
         if (_speed<desiredSpeed)
             _speed = _speed+1;
         if (_speed>desiredSpeed)
-            _speed = _speed-4;
-        x=x+_speed;
+            _speed = _speed-2;
+        x=x+_speed; //машина всё ещё едет
 
         if (y<102)
-        {
-            y+=3;
+        { //перестраиваемся вправо
+            y+=2;
         }
         if ((y>=102))
         {
-            desiredSpeed = 30;
+            desiredSpeed = 30; //тормозим
             //desiredSpeed = -0.01125*x + 77;
         }
 
@@ -74,33 +88,34 @@ void Car::step()
 }
 
 int Car::getX()
-{
+{ //получить х
     return x/10;
 }
 
 int Car::getY()
-{
+{ //получить y
     return y;
 }
 
 QPixmap Car::pic()
-{
+{ //получить пик
     return _pic;
 }
 
 bool Car::isMoving()
-{
+{ //едет ли
     return moving;
 }
 
 void Car::startMoving()
-{
+{ //начать двигаться
     moving = true;
-    desiredSpeed = 60 + (rand()%40);
+    desiredSpeed = 60 + (rand()%40); //рандомная скорость
+    _speed = desiredSpeed;
 }
 
 void Car::setSource(MainWindow *source)
-{
+{ //запоминаем мейнвиндоу
     window = source;
 }
 
@@ -120,9 +135,14 @@ void Car::setId(int ind)
 }
 
 void Car::bust()
-{
+{ //арестовываем
     busted = true;
-    desiredSpeed = 60;
+    desiredSpeed = 60; //снижай скорость
+}
+
+QString Car::color()
+{
+    return _color;
 }
 
 

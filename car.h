@@ -24,6 +24,7 @@ public:
     int id();
     void setId(int ind);
     void bust();
+    QString color();
 
 private:
     int _speed;
@@ -33,6 +34,7 @@ private:
     bool checked;
     bool busted;
     int _id;
+    QString _color;
 
     QPixmap _pic;
 

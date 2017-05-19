@@ -6,5 +6,6 @@
         <file>car2.png</file>
         <file>car3.png</file>
         <file>car4.png</file>
+        <file>log.png</file>
     </qresource>
 </RCC>

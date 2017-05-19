@@ -40,6 +40,9 @@ private:
     int amount;
     int time;
     int speedLimit;
+
+private slots:
+    void checkSpin(int spin);
 };
 
 #endif // MAINWINDOW_H
