@@ -19,6 +19,36 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background: rgb(239, 245, 255);
+font: 75 9pt &quot;Courier New&quot;;
+}
+
+ QPushButton {
+     background-color: rgb(208,226, 255);
+     border-style: outset;
+     border-width: 2px;
+     border-radius: 2px;
+     border-color: rgb(0, 66, 175);
+     min-width: 5em;
+     padding: 1px;
+ }
+ QPushButton:pressed {
+     background-color: rgb(172,203, 255);
+     border-style: inset;
+ }
+
+ QProgressBar {
+     border: 2px solid  rgb(0, 66, 175);
+     border-radius: 5px;
+ }
+
+ QProgressBar::chunk {
+     background-color: rgb(0, 66, 175);
+     width: 1px;
+ }</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
@@ -92,42 +122,76 @@
      <pixmap resource="pics.qrc">:/cars/log.png</pixmap>
     </property>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>270</y>
-      <width>221</width>
-      <height>81</height>
+      <width>271</width>
+      <height>111</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QSpinBox" name="spinBox">
-       <property name="minimum">
-        <number>70</number>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>85</number>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Ограничение скорости:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBox">
+         <property name="minimum">
+          <number>70</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>5</number>
+         </property>
+         <property name="value">
+          <number>85</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="butStart">
+       <property name="text">
+        <string>Старт</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
+     <item>
+      <widget class="QPushButton" name="butPause">
        <property name="text">
-        <string>Ограничение скорости:</string>
+        <string>Пауза</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>
    <zorder>graphicsView</zorder>
    <zorder>label</zorder>
    <zorder>textEdit</zorder>
-   <zorder>gridLayoutWidget</zorder>
+   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

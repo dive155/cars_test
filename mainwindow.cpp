@@ -16,8 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
     timer->start(20); //создаём время
+    paused = false;
 
-    amount = 10; //кол-во машин
+    connect(ui->butPause, SIGNAL(clicked()),
+            this, SLOT(pause()));
+    connect(ui->butStart, SIGNAL(clicked()),
+            this, SLOT(start()));
+
+    amount = 8; //кол-во машин
     initCars(); //создаем их
     time = 0;
     speedLimit = 85; //ограничение скорости
@@ -45,40 +51,53 @@ void MainWindow::checkCar(Car *car)
     if (car->speed() > speedLimit)
     { //если превышает
         car->bust(); //арестовываем
-        ui->textEdit->append(QString("%1: %2 км/ч. Ограничение: (%3) км/ч. НАРУШЕНИЕ.").arg(car->color()).arg(car->speed()).arg(speedLimit));
+        ui->textEdit->append(QString("%1 %2 км/ч. Ограничение: (%3) км/ч. НАРУШЕНИЕ.").arg(car->color()).arg(car->speed()).arg(speedLimit));
     }
     else
     {
-        ui->textEdit->append(QString("%1: %2 км/ч. Ограничение: (%3) км/ч. Нет нарушения.").arg(car->color()).arg(car->speed()).arg(speedLimit));
+        ui->textEdit->append(QString("%1 %2 км/ч. Ограничение: (%3) км/ч. Нет нарушения.").arg(car->color()).arg(car->speed()).arg(speedLimit));
     }
 }
 
 void MainWindow::tick()
 { //вызывается каждый тик
-    time++; //движим время
-    scene->clear(); //готовим сцену
-    scene->addPixmap(QPixmap(":cars/backtest.png"));
-    for (int i = 0; i<amount; i++)
-    {//двигаем машинки
-        Cars[i].step(); //сдвигаем машину, потом рисуем её
-        QGraphicsPixmapItem *pm = scene->addPixmap( QPixmap(Cars[i].pic() ) );
-        pm->setPos(Cars[i].getX(), Cars[i].getY());
-    }
-    if (time > 60+rand()%100)
-    { //если настало время создать новое авто (переместить существующее в начало)
-        time = 0; //обнуляем время
-        int val = rand()%(amount-1);
-        while (Cars[val].isMoving() != 0)
-        { //ищем уехавшую машину
-            val = rand()%(amount-1);
+    if (paused != true)
+    {
+        time++; //движим время
+        scene->clear(); //готовим сцену
+        scene->addPixmap(QPixmap(":cars/backtest.png"));
+        for (int i = 0; i<amount; i++)
+        {//двигаем машинки
+            Cars[i].step(); //сдвигаем машину, потом рисуем её
+            QGraphicsPixmapItem *pm = scene->addPixmap( QPixmap(Cars[i].pic() ) );
+            pm->setPos(Cars[i].getX(), Cars[i].getY());
         }
-        Cars[val].startMoving(); //запускаем её
+        if (time > 60+rand()%100)
+        { //если настало время создать новое авто (переместить существующее в начало)
+            time = 0; //обнуляем время
+            int val = rand()%(amount-1);
+            while (Cars[val].isMoving() != 0)
+            { //ищем уехавшую машину
+                val = rand()%(amount-1);
+            }
+            Cars[val].startMoving(); //запускаем её
+        }
+        scene->addPixmap(QPixmap(":cars/police.png")); //рисуем полицейский участок
     }
-    scene->addPixmap(QPixmap(":cars/police.png")); //рисуем полицейский участок
 }
 
 void MainWindow::checkSpin(int spin)
 {
     speedLimit=spin;
     ui->textEdit->append(QString("Новое ограничение скорости: %1.").arg(speedLimit));
+}
+
+void MainWindow::pause()
+{
+    paused = true;
+}
+
+void MainWindow::start()
+{
+    paused = false;
 }

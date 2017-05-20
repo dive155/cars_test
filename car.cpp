@@ -14,22 +14,22 @@ Car::Car()
     if (picin==0)
     { //рандомная картинка
         _pic = QPixmap(":cars/car1.png");
-        _color = QString("Зеленый");
+        _color = QString("Зеленый:");
     }
     if (picin==1)
     {
         _pic = QPixmap(":cars/car2.png");
-        _color = QString("Синий");
+        _color = QString("Синий:    ");
     }
     if (picin==2)
     {
         _pic = QPixmap(":cars/car3.png");
-        _color = QString("Красный");
+        _color = QString("Красный:");
     }
     if (picin==3)
     {
         _pic = QPixmap(":cars/car4.png");
-        _color = QString("Желтый");
+        _color = QString("Желтый: ");
     }
     //не едет, не проверена, не арестована
     moving = false;
